@@ -4,8 +4,16 @@
 body {
   background: limegreen; }
 
-h2 {
-  color: maroon;
-  border-bottom: 4px solid maroon; }
+ul {
+  list-style-type: none; }
+
+.header h1 {
+  background: blue;
+  color: #fff;
+  padding-top: 30px;
+  margin-top: 0; }
+
+.list-items {
+  font-size: 25px; }
 
 /*# sourceMappingURL=styles.css.map*/

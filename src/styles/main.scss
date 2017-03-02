@@ -6,10 +6,17 @@ body{
 	background: limegreen;
 }
 
-$txt-color: maroon;
-
-h2{
-	color: $txt-color;
-	border-bottom: 4px solid $txt-color;
+ul {
+	list-style-type: none;
 }
 
+.header h1{
+	background: blue;
+	color: #fff;
+	padding-top: 30px;
+	margin-top: 0;
+}
+
+.list-items {
+	font-size: 25px;
+}
