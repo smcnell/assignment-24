@@ -26,14 +26,10 @@ _updateTheList: function(newThing){
     theList: listCopy
   })
 },
-_handleRemoveItem: function(evt){
-  console.log(evt.target)
-  console.log(evt.target.dataset.theindex)
-let currentIndex=evt.target.dataset.theindex
-
+_handleRemoveItem: function(indexOfItem){
   this.setState({
-    theList: this.state.theList.filter(function(index){
-      if(currentIndex===index){
+    theList: this.state.theList.filter(function(item, i){
+      if(i === indexOfItem){
         return false
       } else {
         return true
@@ -45,32 +41,50 @@ let currentIndex=evt.target.dataset.theindex
 
 
 },
+_itemsOnPage: function(){
+  let self = this
+
+    return this.state.theList.map(function(obj, i){
+      return <InputComponent eachListText={obj} index={i} handleRemove={self._handleRemoveItem} />
+    })
+
+},
 
   render: function(){
-    console.log(this.state.theList)
+
+    // <InputComponent itemName={} index={i} handleRemove={this._handleRemoveItem}/>
+
+    // var itemsOnPage=[]
+    // for (let i=0; i<this.state.theList.length; i++){
+    //   itemsOnPage.push((<InputComponent eachListText={this.state.theList[i]} index={i} handleRemove={this._handleRemoveItem}/>))
+    // }
+          // var itemsOnPage = function(){
+
+          // }
+
+    // let component= this
+    // let itemsOnPage = []
+    // let listy=this.state.theList.map(function(eachItem){
+    //   return (
+    //     itemsOnPage.push((<InputComponent eachListText={eachItem} index={i} handleRemove={this._handleRemoveItem}/>))
+    //   )
+    // })
+    //
+    //   })
 
 
-    // <ToDoItem itemName={} index={i} handleRemove={this._handleRemoveItem}/>
-
-
-    var itemsOnPage=[]
-    for (let i=0; i<this.state.theList.length; i++){
-      itemsOnPage.push((<InputComponent eachListText={this.state.theList[i]} index={i} handleRemove={this._handleRemoveItem}/>))
-    }
 
     return (
     <div className="big-container">
       <div className="header">
-        <h1> TO DO LIST </h1>
+        <h1> To Do List </h1>
         <input ref="inputNewList" type="text" name="search" placeholder=""/>
         <button type="button" onClick={this._handleNewListItem}>+ </button>
         <hr/>
       </div>
 
       <ul className="list-items">
-
-      {itemsOnPage}
-
+        {this._itemsOnPage()}
       </ul>
 
     </div>
@@ -83,10 +97,13 @@ let currentIndex=evt.target.dataset.theindex
 
 const InputComponent=React.createClass({
 
+  _handleClick: function(){
+    this.props.handleRemove(this.props.index)
+  },
 
 render: function(){
   return (
-    <li><input type="checkbox" name="hey" value="list"></input>{this.props.eachListText}<button type="button" onClick={this.props.handleRemove} data-theindex={this.props.index}>X</button></li>
+    <li><input type="checkbox" name="hey" value="list"></input>{this.props.eachListText}<button type="button" onClick={this._handleClick} data-theindex={this.props.index}>X</button></li>
 
   )
 }
