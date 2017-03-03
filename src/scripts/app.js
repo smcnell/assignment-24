@@ -18,30 +18,45 @@ _handleNewListItem: function(){
 this._updateTheList(newListItem)
 },
 
+
 _updateTheList: function(newThing){
-  console.log(newThing, 'workin')
-  let listArrayCopy = this.state.theList.map(function(copy){return copy})
-  listArrayCopy.push(newThing)
-  console.log(listArrayCopy)
+  let listCopy=this.state.theList;
+  listCopy.push(newThing)
   this.setState({
-    theList: listArrayCopy
+    theList: listCopy
   })
 },
-_handleRemoveItem: function(index){
-  console.log('item to remove', index)
+_handleRemoveItem: function(evt){
+  console.log(evt.target)
+  console.log(evt.target.dataset.theindex)
+let currentIndex=evt.target.dataset.theindex
 
+  this.setState({
+    theList: this.state.theList.filter(function(index){
+      if(currentIndex===index){
+        return false
+      } else {
+        return true
+      }
 
+    })
+
+  })
 
 
 },
-
-
 
   render: function(){
     console.log(this.state.theList)
 
 
-    // <ToDoItem itemName={this.state.theList} index={i} handleRemove={this._handleRemoveItem}/>
+    // <ToDoItem itemName={} index={i} handleRemove={this._handleRemoveItem}/>
+
+
+    var itemsOnPage=[]
+    for (let i=0; i<this.state.theList.length; i++){
+      itemsOnPage.push((<InputComponent eachListText={this.state.theList[i]} index={i} handleRemove={this._handleRemoveItem}/>))
+    }
 
     return (
     <div className="big-container">
@@ -53,12 +68,9 @@ _handleRemoveItem: function(index){
       </div>
 
       <ul className="list-items">
-        <li><input type="checkbox" name="hey" value="list"></input>wash cat<button type="button">X</button></li>
-        <li><input type="checkbox" name="hey" value="list"></input>read book<button type="button">X</button></li>
-        <li><input type="checkbox" name="hey" value="list"></input>rethink my life<button type="button">X</button></li>
-        <li><input type="checkbox" name="hey" value="list"></input>go swimming<button type="button">X</button></li>
 
-        <InputComponent updateListCb={this._updateTheList} />
+      {itemsOnPage}
+
       </ul>
 
     </div>
@@ -74,7 +86,7 @@ const InputComponent=React.createClass({
 
 render: function(){
   return (
-    <li><input type="checkbox" name="hey" value="list"></input>{this.newListItem}<button type="button">X</button></li>
+    <li><input type="checkbox" name="hey" value="list"></input>{this.props.eachListText}<button type="button" onClick={this.props.handleRemove} data-theindex={this.props.index}>X</button></li>
 
   )
 }
